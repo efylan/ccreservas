@@ -1,0 +1,49 @@
+{%extends "base.html"%}
+
+
+{%block extrajs%}
+    <script>
+    $(function (){
+        $("#id_fecha").datepicker({dateFormat:"dd/mm/yy"});
+    });
+    </script>
+{%endblock%}
+
+{%block maincontent%}
+<h2>Programar Práctica</h2>
+<br>
+<div class="alert alert-info">
+    <i class="icon-info-sign"></i> Al reservar un Aula completa para una práctica se darán por terminadas las reservaciones de equipos individuales que se encuentren a lo largo del horario de la práctica. Si estas reservaciones todavía no inician entonces serán canceladas.
+</div>
+<form class="form-vertical" method="POST">
+    <fieldset>
+    <div class="control-group">
+    {%csrf_token%}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="control-group {%if field.errors%}error{%endif%}">
+        {{ field.errors }}
+        <label for="id_{{field.name}}" class="control-label"><strong>{{ field.label }}</strong></label>
+        <div class="controls">
+        {{ field }}
+        {%if field.help_text%}
+            <p class="help-block">{{field.help_text}}</p>
+        {%endif%}
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+    <input type="submit" value="Guardar" class="btn btn-success"/> 
+    <input type="submit" name="add_another" value="Guardar y programar otra practica" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url reservaciones.views.home%}">Cancelar</a>
+
+
+    </fieldset>
+</form>
+{%endblock%}
+

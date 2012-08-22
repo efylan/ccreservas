@@ -1,0 +1,71 @@
+{%extends "base.html"%}
+
+
+{%block maincontent%}
+<div class="row">
+<div class="span6">
+<h2>Resolver informe de equipo</h2>
+<br>
+<form class="form-vertical" method="POST">
+    <fieldset>
+    <div class="control-group">
+    {%csrf_token%}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="control-group {%if field.errors%}error{%endif%}">
+        {{ field.errors }}
+        <label for="id_{{field.name}}" class="control-label"><strong>{{ field.label }}</strong></label>
+        <div class="controls">
+        {{ field }}
+        {%if field.help_text%}
+            <p class="help-block">{{field.help_text}}</p>
+        {%endif%}
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+    <input type="submit" value="Guardar" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url informes.views.home%}">Cancelar</a>
+
+
+    </fieldset>
+</form>
+</div>
+
+<div class="span5">
+    <h2><small>Detalles de Informe</small></h2>
+    <br>
+    <table class="table">
+        <tr>
+            <table class="table">
+                <tr>
+                    <td><strong>Fecha</strong></td><td>{{informe.fecha_creacion}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Categoría</strong></td><td><span class="label {%if informe.tipo == 1%}label-inverse{%endif%}">{{informe.get_tipo_display}}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Condición</strong></td><td><span class="label {{informe.get_label_class}}">{{informe.get_estado_display}}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Aula</strong></td><td>{{informe.equipo.aula.nombre}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Equipo</strong></td><td>{{informe.equipo.nombre}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción</strong></td><td>{{informe.descripcion}}</td>
+                </tr>
+
+            </table>
+        </tr>
+    </table>
+</div>
+</div>
+{%endblock%}
+

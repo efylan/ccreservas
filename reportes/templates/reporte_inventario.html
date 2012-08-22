@@ -1,0 +1,44 @@
+{%extends 'reportes_base.html'%}
+
+{%block title%}
+    <title>{{titulo}} - Reportes</title>
+{%endblock%}
+
+{%block titlecontent%}
+    <h2>{{titulo}}</h2>
+{%endblock%}
+
+{%block content%}
+    {%for aula in aula_list%}
+    {%if aula.equipos%}
+        <h3>Aula {{aula.aula.nombre}}</h3>
+        <table class="table table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Sistema Op.</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>RAM</th>
+            <th>DD</th>
+        </tr>
+        {%for equipo in aula.equipos%}
+        <tr>
+            <td>{{equipo.id}}</td>
+            <td>{{equipo.nombre}}</td>
+            <td>{{equipo.sistema_operativo}}</td>
+            <td>{{equipo.marca}}</td>
+            <td>{{equipo.modelo}}</td>
+            <td>{{equipo.ram}} MB</td>
+            <td>{{equipo.disco_duro}} GB</td>
+        </tr>
+        {%endfor%}
+        </table>
+        <p>Total de equipos en {{aula.aula.nombre}}: {{aula.count}}</p>
+        <br>
+        <hr>
+        <br>
+    {%endif%}
+    {%endfor%}
+    <p>Total de equipos en todas las aulas: {{total_count}}</p>
+{%endblock%}

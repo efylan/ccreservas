@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    {%block title%}
+        <title>Sistema de Control de uso de Aulas y Equipos del Centro de Computo del Instituto Tecnologico de Matamoros</title>
+    {%endblock%}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/media/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/media/css/reportes.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 30px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="/media/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/media/bootstrap/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/media/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    <script src="/media/jquery/jquery-1.7.2.min.js"></script>        
+    <script type="text/javascript" src="/media/js/jquery.printElement.min.js"></script>
+    <script type="text/javascript">
+        function print(){
+        $("#printable").printElement(
+            {
+                overrideElementCSS:['/media/bootstrap/css/bootstrap.css','/media/css/reportes.css']
+            }
+        );};
+    </script>
+
+  </head>
+
+
+
+  <body>
+
+    <div style="margin-bottom:30px;">
+        <div class="row">
+        <a href="{%url reportes.views.home%}" class="btn btn-info btn-large span3 offset2"><i class="icon-arrow-left icon-white"></i> Regresar</a>
+        <a href="javascript:void(0)" onclick="print();" class="btn btn-info btn-large span3 offset2"><i class="icon-print icon-white"></i> Imprimir</a>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+      <div class="content" id="printable">
+        <div class="info_empresa">
+           <p>Instituto Tecnológico de Matamoros</p>
+           <p>Control de Centro de Cómputo</p>
+        </div>
+
+        <div class="titulo">
+            {%block titlecontent%}
+            {%endblock%}
+        </div>
+
+            {%block content%}
+            {%endblock%}
+      </div>
+    </div> <!-- /container -->
+  </body>
+</html>

@@ -1,0 +1,42 @@
+{%extends 'reportes_base.html'%}
+
+{%block title%}
+    <title>{{titulo}} - Reportes</title>
+{%endblock%}
+
+{%block titlecontent%}
+    <h2>{{titulo}}</h2>
+{%endblock%}
+
+{%block content%}
+    {%for aula in aula_list%}
+    {%if aula.reservaciones%}
+        <h3>Aula {{aula.aula.nombre}}</h3>
+        <table class="table table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>Equipo</th>
+            <th>Alumno</th>
+            <th>Fecha</th>
+            <th>Desde</th>
+            <th>Hasta</th>
+        </tr>
+        {%for reserva in aula.reservaciones%}
+        <tr>
+            <td>{{reserva.id}}</td>
+            <td>{{reserva.equipo.nombre}}</td>
+            <td>{{reserva.alumno.pk}} {{reserva.alumno.apellido_paterno}} {{reserva.alumno.apellido_materno}} {{reserva.alumno.nombre}}</td>
+            <td>{{reserva.fecha}}</td>
+            <td>{{reserva.hora_inicio}}</td>
+            <td>{{reserva.hora_fin}}</td>
+        </tr>
+        {%endfor%}
+        </table>
+        <p>Total de reservaciones en {{aula.aula.nombre}}: {{aula.count}}</p>
+        <br>
+        <hr>
+        <br>
+    {%endif%}
+    {%endfor%}
+    <p>Total de reservaciones en todas las aulas: {{total_count}}</p>
+{%endblock%}

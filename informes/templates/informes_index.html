@@ -1,0 +1,48 @@
+{%extends "base.html"%}
+{%block maincontent%}
+    {%if informes%}
+    {% load pagination_tags %}
+    {% autopaginate informes 15 %}
+    <div class="informes_list" style="border-bottom:1px solid #ddd;">
+      <div class="btn-toolbar" style="text-align:center;">
+        <div class="btn-group">
+            <a href="{%url informes.views.informes_pendientes%}" class="btn">Ver Pendientes</a>
+            <a href="{%url informes.views.informes_arreglados%}" class="btn">Ver Arreglados</a>
+            <a href="{%url informes.views.informes_wontfix%}" class="btn">Ver No Arreglados</a>
+        </div>
+      </div>
+      <h2>Informes</h2>
+      <br>
+      <table class="table">  
+            <tr>
+              <th>ID</th>
+              <th style="width:130px;">Fecha</th>
+              <th>Categoría</th>
+              <th>Condición</th>
+              <th>Aula</th>
+              <th>Equipo</th>
+              <th style="width:300px;">Descripción</th>
+              <th>Resolver</th>
+            </tr>
+        {%for informe in informes%}
+            <tr>
+              <td>{{informe.id}}</td>
+              <td>{{informe.fecha_creacion}}</td>
+              <td><span class="label {%if informe.tipo == 1%}label-inverse{%endif%}">{{informe.get_tipo_display}}</span></td>
+              <td><span class="label {{informe.get_label_class}}">{{informe.get_estado_display}}</span></td>
+              <td>{{informe.equipo.aula.nombre}}</td>
+              <td>{{informe.equipo.nombre}}</td>
+              <td>{{informe.descripcion}}</td>
+              <td><a href="{%url informes.views.resolver_informe informe.id%}"><i class="icon-check"></i> Resolver</td>
+            </tr>
+        {%endfor%}
+      </table>
+    </div>
+    <br>
+    {%paginate%}
+    {%else%}
+        <div class="alert alert-info">
+            No hay ningún informe pendiente, ¡Que bien!, todo debe estar funcionando correctamente.
+        </div>
+    {%endif%}
+{%endblock%}

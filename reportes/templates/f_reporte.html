@@ -1,0 +1,51 @@
+{%extends "base.html"%}
+
+{%block extrajs%}
+    <script>
+    $(function (){
+        $("#id_fecha").datepicker({dateFormat:"dd/mm/yy"});
+        $("#id_fecha_inicio").datepicker({dateFormat:"dd/mm/yy"});
+        $("#id_fecha_fin").datepicker({dateFormat:"dd/mm/yy"});
+    });
+    </script>
+{%endblock%}
+
+{%block maincontent%}
+<div class="row">
+<div class="span12">
+<h2>{{titulo}}</h2>
+<br>
+<form class="form-vertical" method="POST">
+    <fieldset>
+    <div class="control-group">
+    {%csrf_token%}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="control-group {%if field.errors%}error{%endif%}" {%if field.name == 'fecha_fin' or field.name == 'fecha_inicio' or field.name == "hora_inicio" or field.name == "hora_fin"%}style="display:inline-block; vertical-align:top;"{%endif%}>
+        {{ field.errors }}
+        <label for="id_{{field.name}}" class="control-label"><strong>{{ field.label }}</strong></label>
+        <div class="controls">
+        {{ field }}
+        {%if field.help_text%}
+            <p class="help-block">{{field.help_text}}</p>
+        {%endif%}
+        </div>
+    </div>
+    {%if field.name == "hora_fin" or field.name == "fecha_fin"%}
+    <br>
+    {%endif%}
+    {% endfor %}
+
+    <input type="submit" value="Generar Reporte" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url reportes.views.home%}">Regresar</a>
+
+
+    </fieldset>
+</form>
+</div>
+</div>
+{%endblock%}
+

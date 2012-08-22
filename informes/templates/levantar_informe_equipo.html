@@ -1,0 +1,64 @@
+{%extends "base.html"%}
+
+
+{%block maincontent%}
+<div class="row">
+<div class="span6">
+<h2>Levantar informe de equipo</h2>
+<br>
+<form class="form-vertical" method="POST">
+    <fieldset>
+    <div class="control-group">
+    {%csrf_token%}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="control-group {%if field.errors%}error{%endif%}">
+        {{ field.errors }}
+        <label for="id_{{field.name}}" class="control-label"><strong>{{ field.label }}</strong></label>
+        <div class="controls">
+        {{ field }}
+        {%if field.help_text%}
+            <p class="help-block">{{field.help_text}}</p>
+        {%endif%}
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+    <input type="submit" value="Guardar" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url reservaciones.views.aula_detail equipo.aula.id%}">Cancelar</a>
+
+
+    </fieldset>
+</form>
+</div>
+
+<div class="span5">
+    <h2><small>Detalles de {{equipo.nombre}}</small></h2>
+    <br>
+    <table class="table">
+        <tr>
+            <table class="table">
+                <tr>
+                    <td><strong>Sistema Operativo</strong></td><td>{{equipo.sistema_operativo}}</td>
+                </tr>
+                <tr>
+                    <td><strong>RAM</strong></td><td>{{equipo.ram}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Disco Duro</strong></td><td>{{equipo.disco_duro}}</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;"><strong>Aplicaciones</strong></td><td><ul>{%for app in equipo.aplicaciones.all%}<li>{{app.nombre}}</li>{%endfor%}</ul</td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+</div>
+</div>
+{%endblock%}
+

@@ -1,0 +1,39 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+    <h2>Prácticas para {{aula.nombre}}</h2>
+    <br>
+    <br>
+
+  {%if practicas%}
+          <div class="row">
+    {%for practica in practicas%}
+        <div class="reserva_list">
+
+            <div class="info_list span4">
+              <div class="info_header">
+                <h3><small>{{practica.nombre}}</small></h3>
+              </div>
+              <div class="info_body">
+                <p>
+                    Docente: {{practica.docente.rfc}} <br>
+                    {{practica.docente.apellido_paterno}} {{practica.docente.apellido_materno}} {{practica.docente.nombre}}
+                </p>
+                <p>Fecha: <span class="label label-info">{{practica.fecha}}</span></p>
+                <p>De <span class="label label-info">{{practica.hora_inicio}}</span> a <span class="label label-info">{{practica.hora_fin}}</span></p>
+              </div>
+              <div class="info_footer">
+                <form action="{%url reservaciones.views.cancelar_practica practica.id%}" method="POST">
+                    {%csrf_token%}
+                    <input type="submit" class="btn btn-danger" value="Cancelar Práctica">
+                </form>
+              </div>
+            </div>
+
+        </div>
+    {%endfor%}
+          </div>
+  {%else%}
+    <div class="alert alert-info"><i class="icon-info-sign"></i> No hay practicas actuales o futuras para esta aula.</div>
+  {%endif%}
+{%endblock%}
