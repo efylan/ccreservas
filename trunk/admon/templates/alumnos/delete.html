@@ -1,0 +1,39 @@
+{%extends "base.html"%}
+
+{%block title%}
+        <title>Administracion - Eliminar Alumno</title>
+{%endblock title%}
+
+
+{%block maincontent%}
+<h2>Eliminar Alumno</h2>
+
+<div class="well">
+
+    <p>¿Desea eliminar el registro {{obj.id}} - {{obj}}? Esta acción no se puede deshacer.</p>
+    <br>
+    <br>
+
+    <a href="{% url admon.views.alumno_list%}" class="btn btn-inverse"><i class="icon-arrow-left icon-white"></i> Regresar</a>
+
+    <form method="POST" style="display:inline;">
+        {%csrf_token%}
+        <button type="submit" class="btn btn-danger pull-right"><i class="icon-remove icon-white"></i> Eliminar</button>
+    </form>
+
+
+</div>
+
+
+
+{%if related%}
+    <div class="warning">Al eliminar este registro, por consecuencia eliminará también los siguientes objetos</div>
+    <ul>
+    {%for rel in related%}
+        <li>{{related}}</li>
+    {%endfor%}
+    </ul>
+{%endif%}
+
+
+{%endblock%}

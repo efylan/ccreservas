@@ -1,0 +1,43 @@
+{%extends 'reportes_base.html'%}
+
+{%block title%}
+    <title>{{titulo}} - Reportes</title>
+{%endblock%}
+
+{%block titlecontent%}
+    <h2>{{titulo}}</h2>
+{%endblock%}
+
+{%block content%}
+    {%for aula in aula_list%}
+    {%if aula.practicas%}
+        <h3>Aula {{aula.aula.nombre}}</h3>
+        <table class="table table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>Docente</th>
+            <th>Practica</th>
+            <th>Fecha</th>
+            <th>Desde</th>
+            <th>Hasta</th>
+        </tr>
+        {%for practica in aula.practicas%}
+        <tr>
+            <td>{{practica.id}}</td>
+            <td>{{practica.docente.pk}} {{practica.docente.apellido_paterno}} {{practica.docente.apellido_materno}} {{practica.docente.nombre}}</td>
+            <td>{{practica.nombre}}</td>
+            <td>{{practica.fecha}}</td>
+            <td>{{practica.hora_inicio}}</td>
+            <td>{{practica.hora_fin}}</td>
+        </tr>
+        {%endfor%}
+        </table>
+        <p>Total de practicas en {{aula.aula.nombre}}: {{aula.count}}</p>
+    {%endif%}
+    {%endfor%}
+    <p>Total de practicas en todas las aulas: {{total_count}}</p>
+        <br>
+        <hr>
+        <br>
+
+{%endblock%}

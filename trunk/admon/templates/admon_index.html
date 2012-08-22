@@ -1,0 +1,50 @@
+{%extends "base.html"%}
+
+{%block title%}
+        <title>Administracion</title>
+{%endblock title%}
+
+
+{%block maincontent%}
+
+<div class="row show-grid">
+    <div class="span6 well">
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                Aulas y Equipos
+            </li>
+            <li><a href="{%url admon.views.aula_list%}"> Aulas </a></li>
+            <li><a href="{%url admon.views.equipo_list%}"> Equipos </a></li>
+            <li><a href="{%url admon.views.app_list%}"> Aplicaciones </a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="row show-grid">
+    <div class="span6 well">
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                Carreras y Usuarios del CC
+            </li>
+            <li><a href="{%url admon.views.carrera_list%}"> Carreras </a></li>
+            <li><a href="{%url admon.views.alumno_list%}"> Alumnos </a></li>
+            <li><a href="{%url admon.views.docente_list%}"> Docentes </a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="row show-grid">
+    <div class="span6 well">
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                Usuarios del Sistema y Grupos
+            </li>
+            <li><a href="{%url admon.views.user_list%}"> Usuarios </a></li>
+            <li><a href="{%url admon.views.group_list%}"> Grupos </a></li>
+        </ul>
+    </div>
+</div>
+
+
+{%endblock%}

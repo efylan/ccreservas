@@ -1,0 +1,38 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+    <h2>Reservaciones para {{aula.nombre}}</h2>
+    <br>
+    <br>
+
+  {%if reservas%}
+          <div class="row">
+    {%for reserva in reservas%}
+        <div class="reserva_list">
+
+            <div class="info_list span4">
+              <div class="info_header">
+                <h3><small>Reservación para {{reserva.equipo.nombre}}</small></h3>
+              </div>
+              <div class="info_body">
+                <p>
+                    Alumno: {{reserva.alumno.numero_control}} {{reserva.alumno.apellido_paterno}} {{reserva.alumno.apellido_materno}} {{reserva.alumno.nombre}}
+                </p>
+                <p>Fecha: <span class="label label-info">{{reserva.fecha}}</span></p>
+                <p>De <span class="label label-info">{{reserva.hora_inicio}}</span> a <span class="label label-info">{{reserva.hora_fin}}</span></p>
+              </div>
+              <div class="info_footer">
+                <form action="{%url reservaciones.views.cancelar_reservacion reserva.id%}" method="POST">
+                    {%csrf_token%}
+                    <input type="submit" class="btn btn-danger" value="Cancelar Reservación">
+                </form>
+              </div>
+            </div>
+
+        </div>
+    {%endfor%}
+          </div>
+  {%else%}
+    <div class="alert alert-info"><i class="icon-info-sign"></i> No hay reservaciones actuales o futuras para esta aula.</div>
+  {%endif%}
+{%endblock%}

@@ -1,0 +1,43 @@
+{%extends "base.html"%}
+
+{%block title%}
+        <title>Administracion - Crear Docente</title>
+{%endblock title%}
+
+
+{%block maincontent%}
+<h2>Crear Docente</h2>
+<br>
+<form class="form-vertical" method="POST">
+    <fieldset>
+    <div class="control-group">
+    {%csrf_token%}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="control-group {%if field.errors%}error{%endif%}">
+        {{ field.errors }}
+        <label for="id_{{field.name}}" class="control-label">{{ field.label }}</label>
+        <div class="controls">
+        {{ field }}
+        {%if field.help_text%}
+            <p class="help-block">{{field.help_text}}</p>
+        {%endif%}
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+    <input type="submit" value="Guardar" class="btn btn-success"/> 
+    <input type="submit" name="add_another" value="Guardar y agregar otro" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url admon.views.docente_list%}">Cancelar</a>
+
+
+    </fieldset>
+</form>
+
+
+{%endblock%}

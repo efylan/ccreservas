@@ -1,0 +1,83 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+{%block extrajs%}
+    <script>
+    $(function (){
+    {%for aula in aulas%}
+        $("#busqueda_aula_{{aula.id}}").modal({show:false})
+        $('#busqueda_aula_{{aula.id}}').on('shown', function () {
+        $("#id_search_{{aula.id}}").focus();
+        })
+    {%endfor%}
+    });
+    </script>
+{%endblock%}
+<div class="well well-small span6 offset3">
+           <form class="form-inline" action="{%url reservaciones.views.busqueda_aplicaciones_all%}" style="text-align:center;">
+            <fieldset>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="text" name="search", id="id_search_all" class="search_field"><input type="submit" class="btn" value="Todas las Aulas" id="search_btn_all">
+                </div>
+              </div>
+            </fieldset>
+           </form>
+</div>
+<div class="row">
+    <div class="span12">
+      {%for aula in aulas%}     
+       <div class="btn-toolbar">
+         <div class="btn-group">
+            {%with aula.get_disponibles_count as disponibles_count%}
+            <a href="#" style="width:150px;" class="btn dropdown-toggle" data-toggle="dropdown" class="btn"><span class="pull-left badge {%if disponibles_count > 0%}{%else%}badge-warning{%endif%}">{{disponibles_count}} / {{aula.total_equipos}}</span> Aula {{aula.nombre}} <span class="caret pull-right"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{%url reservaciones.views.ver_reservaciones aula.id%}">Ver Reservaciones</a></li>
+                <li><a href="{%url reservaciones.views.ver_practicas aula.id%}">Ver Practicas</a></li>
+                {%with aula.get_practica_actual as practica%}
+                {%if practica%}
+                <li class="divider"></li>
+                <li><a href="{%url reservaciones.views.terminar_practica practica.id%}"><strong>Terminar</strong> practica actual</a></li>
+                <li><a href="{%url reservaciones.views.cancelar_practica practica.id%}"><strong>Cancelar</strong> practica actual</a></li>
+                {%endif%}
+                {%endwith%}
+            </ul>
+
+            <a href="{%url reservaciones.views.aula_detail aula.id%}" class="btn">Reservar equipo en {{aula.nombre}}</a>
+            <a href="{%url reservaciones.views.aula_programar_practica aula.id%}" class="btn">Programar práctica</a>
+            <a href="#busqueda_aula_{{aula.id}}" class="btn" data-toggle="modal"><i class="icon-search"></i> Buscar aplicación</a>
+            {%endwith%}
+
+         </div>
+       </div>
+
+
+       <div class="modal hide" id="busqueda_aula_{{aula.id}}">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Búsqueda de aplicaciones en {{aula.nombre}}</h3>
+          </div>
+          <div class="modal-body">
+           <form class="form-inline" action="{%url reservaciones.views.busqueda_aplicaciones aula.id%}" style="text-align:center;">
+            <fieldset>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="text" name="search", id="id_search_{{aula.id}}" class="search_field"><input type="submit" class="btn" value="Buscar">
+                </div>
+              </div>
+            </fieldset>
+           </form>
+         </div>
+           <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+           </div>
+       </div>
+
+
+      {%endfor%}
+    <div>
+</div>
+
+{%endblock%}
+
+

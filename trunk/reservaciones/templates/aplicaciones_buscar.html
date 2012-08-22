@@ -1,0 +1,83 @@
+{%extends "base.html"%}
+
+{%block extrajs%}
+    <script>
+    $(function (){
+    {%for equipo in resultados.all%}
+        //$("#equipo_{{equipo.id}}").popover({content:"<ul><li>Sistema Operativo:{{equipo.sistema_operativo}}</li><li>Aplicaciones:<ul>{%for app in equipo.aplicaciones.all%}<li>{{app.nombre}}</li>{%endfor%}</ul></li></ul>", title:"Características de {{equipo.nombre}}", placement:"top"});
+        {% if equipo.id in reservados %}
+        $("#equipo_{{equipo.id}}").tooltip({title:"Reservado", placement:"top"});
+        {%else%}
+        $("#equipo_{{equipo.id}}").tooltip({title:"Libre", placement:"top"});
+        {%endif%}
+        $('#equipo_{{equipo.id}}_modal').modal({show:false})
+    {%endfor%}
+    });
+    </script>
+{%endblock%}
+
+
+{%block maincontent%}
+
+<div class="well">
+{{aula.disponible}}
+</div>
+
+{%with aula.disponible as aula_disponible%}
+<div class="equipo-grid">
+<div class="row">
+    
+    {%for equipo in resultados%}
+        <div class="span1 equipo-elem" id="equipo_{{equipo.id}}" rel="popover" >
+            {%if aula_disponible%}
+            <span class="label {% if not equipo.disponible %}label-important{%endif%}">{{equipo.nombre}}</span>
+            {%else%}
+            <span class="label label-warning">{{equipo.nombre}}</span>
+            {%endif%}
+            <br>
+
+            <div class="btn-group">
+                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Accion <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{%url reservaciones.views.equipo_reservar_ahora equipo.id%}">Reservar</a></li>
+                    <li><a href="{%url reservaciones.views.equipo_terminar_actual equipo.id%}">Terminar reservación actual</a></li>
+                    <li class="divider"></li>
+                    <li><a data-toggle="modal" href="#equipo_{{equipo.id}}_modal">Ver detalles de equipo</a></li>
+                    <li><a href="#">Ver reservaciones futuras</a></li>
+                  </ul>
+            </div>
+        </div>
+
+        <div class="modal hide" id="equipo_{{equipo.id}}_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Detalles de {{equipo.nombre}}</h3>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <tr>
+                    <td><strong>Sistema Operativo</strong></td><td>{{equipo.sistema_operativo}}</td>
+                </tr>
+                <tr>
+                    <td><strong>RAM</strong></td><td>{{equipo.ram}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Disco Duro</strong></td><td>{{equipo.disco_duro}}</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;"><strong>Aplicaciones</strong></td><td><ul>{%for app in equipo.aplicaciones.all%}<li>{{app.nombre}}</li>{%endfor%}</ul</td>
+                </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+    {%endfor%}
+
+</div>
+</div>
+
+{%endwith%}
+{%endblock%}
+

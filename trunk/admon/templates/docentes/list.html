@@ -1,0 +1,49 @@
+{%extends "base.html"%}
+
+{%block title%}
+        <title>Administracion - Listado de Docentes</title>
+{%endblock title%}
+
+
+{%block maincontent%}
+<h2>Listado de Docentes</h2>
+<br>
+
+<a href="{% url admon.views.home%}" class="btn btn-inverse"><i class="icon-arrow-left icon-white"></i> Regresar</a>
+
+<a href="{% url admon.views.docente_create%}" class="btn btn-success pull-right"><i class="icon-plus icon-white"></i> Agregar Docente</a>
+<br>
+<br>
+<table class="table table-striped table-bordered table-condensed">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>RFC</th>
+            <th>A. Paterno</th>
+            <th>A. Materno</th>
+            <th>Nombre</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>    
+    </thead>
+
+    <tbody>
+        {%for obj in obj_list%}
+        <tr>
+            <td>{{obj.id}}</td>
+            <td>{{obj.rfc}}</td>
+            <td>{{obj.apellido_paterno}}</td>
+            <td>{{obj.apellido_materno}}</td>
+            <td>{{obj.nombre}}</td>
+            <td><a href="{% url admon.views.docente_modify obj.pk%}"><i class="icon-pencil"></i> Editar</a></td>
+            <td><a href="{% url admon.views.docente_warning obj.pk %}"><i class="icon-remove"></i> Eliminar</a></td>
+        </tr>
+        {%endfor%}
+ 
+    </tbody>
+
+</table>
+
+
+{%endblock%}

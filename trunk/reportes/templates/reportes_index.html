@@ -1,0 +1,22 @@
+{%extends "base.html"%}
+
+{%block title%}
+<title>Reportes - Control CC</title>
+{%endblock title%}
+
+{%block maincontent%}
+<h2>Reportes</h2>
+<br>
+<br>
+<ul class="nav nav-list well span6">
+    <li class="nav-header">Control de Equipo</li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_reservaciones%}">Reporte de Reservaciones</a></li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_practicas%}">Reporte de Prácticas</a></li>
+    <li class="nav-header">Cancelaciones</li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_reservaciones_canceladas%}">Reporte de Reservaciones Canceladas</a></li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_practicas_canceladas%}">Reporte de Prácticas Canceladas</a></li>
+    <li class="nav-header">Informes</li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_informes%}">Reporte de Informes</a></li>
+    <li class="report_option"><a href="{%url reportes.views.reporte_inventario%}">Reporte de Inventario</a></li>
+</ul>
+{%endblock maincontent%}
