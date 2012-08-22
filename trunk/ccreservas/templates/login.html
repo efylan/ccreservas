@@ -1,0 +1,57 @@
+{%extends "base.html"%}
+
+{%block title%}
+        <title>Inicio de Sesion</title>
+{%endblock title%}
+
+
+{%block maincontent%}
+
+<br>
+<div class="row">
+<div class="well span5 offset3">
+
+            <h2>Iniciar Sesion</h2>
+            <br>
+                {%if f.errors%}
+                    {%for error in f.errors%}
+                    <div class="alert alert-error">
+                    {{error}}
+                    </div>
+                    {%endfor%}
+                {%endif%}
+                <form class="form-horizontal" method="POST">
+                    <fieldset>
+                    <div class="control-group">
+                    {%csrf_token%}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for field in form.visible_fields %}
+                    <div class="control-group {%if field.errors%}error{%endif%}">
+                        {{ field.errors }}
+                        <label for="id_{{field.name}}" class="control-label">{{ field.label }}</label>
+                        <div class="controls">
+                        {{ field }}
+                        {%if field.help_text%}
+                            <p class="help-block">{{field.help_text}}</p>
+                        {%endif%}
+                        </div>
+                    </div>
+
+
+                    {% endfor %}
+
+                        <div class="controls">
+                        <input type="submit" value="Iniciar Sesion" class="btn btn-danger btn-large"/> 
+                        </div>
+
+                    </fieldset>
+                </form>
+        </div>
+
+</div>
+</div>
+
+{%endblock%}
