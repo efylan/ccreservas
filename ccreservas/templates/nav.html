@@ -1,0 +1,47 @@
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Control CC</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+            {%if request.user.is_authenticated%}
+              <li id="mnu_reservas"><a href="{% url reservaciones.views.home %}">Reservaciones</a></li>
+              <li id="mnu_informes"><a href="{%url informes.views.home%}">Informes</a></li>        
+              <li id="mnu_admon"><a href="{% url reportes.views.home %}">Reportes</a></li>
+              <li id="mnu_admon"><a href="{% url admon.views.home %}"><i class="icon-cog icon-white"></i> Administración</a></li>
+            {%endif%}
+            </ul>
+
+            <ul class="nav pull-right">
+                {%if request.user.is_authenticated%}
+                    <li class="divider-vertical"></li>
+                    <li id="mnu_user" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-user icon-white"></i> {{request.user.username}} 
+                            <b class="caret"></b>
+                        </a>
+
+                          <ul class="dropdown-menu">
+                            <li id="mnu_user"><a href="{%url ccreservas.views.logout%}">Cerrar Sesión</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Cambiar Contraseña</a></li>
+                          </ul>
+                    </li>
+
+                {%else%}
+                    <li id="mnu_user"><a href="{%url ccreservas.views.login%}">Iniciar Sesión</a></li>
+                {%endif%}
+            </ul>
+
+          </div><!--/.nav-collapse -->
+
+
+        </div>
+      </div>
+    </div>
+
