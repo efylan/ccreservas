@@ -12,7 +12,7 @@
             {%if request.user.is_authenticated%}
               <li id="mnu_reservas"><a href="{% url reservaciones.views.home %}">Reservaciones</a></li>
               <li id="mnu_informes"><a href="{%url informes.views.home%}">Informes</a></li>        
-              <li id="mnu_admon"><a href="{% url reportes.views.home %}">Reportes</a></li>
+              <li id="mnu_reportes"><a href="{% url reportes.views.home %}">Reportes</a></li>
               <li id="mnu_admon"><a href="{% url admon.views.home %}"><i class="icon-cog icon-white"></i> Administración</a></li>
             {%endif%}
             </ul>

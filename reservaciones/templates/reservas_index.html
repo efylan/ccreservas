@@ -43,7 +43,7 @@
                 {%endwith%}
             </ul>
 
-            <a href="{%url reservaciones.views.aula_detail aula.id%}" class="btn">Reservar equipo en {{aula.nombre}}</a>
+            <a href="{%url reservaciones.views.aula_detail aula.id%}" class="btn">Ver equipos de {{aula.nombre}}</a>
             <a href="{%url reservaciones.views.aula_programar_practica aula.id%}" class="btn">Programar práctica</a>
             <a href="#busqueda_aula_{{aula.id}}" class="btn" data-toggle="modal"><i class="icon-search"></i> Buscar aplicación</a>
             {%endwith%}
