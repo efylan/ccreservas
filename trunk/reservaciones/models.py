@@ -61,7 +61,7 @@ class Reservacion(models.Model):
     equipo = models.ForeignKey(Equipo)
     alumno = models.ForeignKey(Alumno)
     fecha = models.DateField()
-    activo = models.BooleanField(default=1)
+    activo = models.BooleanField(default=1, editable=False)
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
     get_active = ReservacionActivesManager()
@@ -77,7 +77,7 @@ class Practica(models.Model):
     docente = models.ForeignKey(Docente)
     #materia = models.ForeignKey(Materia)  ????
     fecha = models.DateField()
-    activo = models.BooleanField(default=1)
+    activo = models.BooleanField(default=1,editable=False)
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
     get_active = PracticaActivesManager()
