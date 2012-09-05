@@ -67,7 +67,7 @@ def equipo_reservar_ahora(request, equipo_id):
             if equipo.disponible(reserva.fecha, reserva.hora_inicio, reserva.hora_fin):
                 reserva.equipo=equipo
                 f.save()
-                messages.success(request,'Reservacion creada con exito')
+                messages.success(request,'Reservación creada con exito')
                 if 'add_another' in request.POST.keys():
                     return HttpResponseRedirect('/reservaciones/aula/%s/' % equipo.aula.id)
                 else:
@@ -130,7 +130,7 @@ def aula_programar_practica(request, aula_id):
                     messages.warning(request, '%s reservacion(es) fueron dadas por terminadas para programar la práctica' % (reservas_count))
                 return HttpResponseRedirect('/reservaciones/')
             else:
-                messages.warning(request, 'Ya existe una practica programada para el aula %s en %s de %s a %s' % (aula.nombre, practica.fecha, practica.hora_inicio, practica.hora_fin))
+                messages.warning(request, 'Ya existe una práctica programada para el aula %s en %s de %s a %s' % (aula.nombre, practica.fecha, practica.hora_inicio, practica.hora_fin))
 
                 return HttpResponseRedirect('/reservaciones/')
 
@@ -186,7 +186,7 @@ def cancelar_practica(request, practica_id):
     try:
         practica = Practica.get_active.get(id=practica_id)
     except Aula.DoesNotExist:
-        messages.error(request, 'Practica no existente.')
+        messages.error(request, 'Práctica no existente.')
         return HttpResponseRedirect('/reservaciones/')
     if request.POST:
         now = datetime.datetime.now()
@@ -234,7 +234,7 @@ def cancelar_reservacion(request, reserva_id):
     try:
         reserva = Reservacion.objects.get(id=reserva_id)
     except Reservacion.DoesNotExist:
-        messages.error(request, 'Practica no existente.')
+        messages.error(request, 'Reservación no existente.')
         return HttpResponseRedirect('/reservaciones/')
     aula_id=reserva.equipo.aula.id
     if request.POST:
@@ -249,7 +249,7 @@ def cancelar_practica(request, practica_id):
     try:
         practica = Practica.objects.get(id=practica_id)
     except Practica.DoesNotExist:
-        messages.error(request, 'Practica no existente.')
+        messages.error(request, 'Práctica no existente.')
         return HttpResponseRedirect('/reservaciones/')
     aula_id=practica.aula.id
     practica.activo=0

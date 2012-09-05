@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     {%block title%}
-        <title>Sistema de Control de uso de Aulas y Equipos del Centro de Computo del Instituto Tecnologico de Matamoros</title>
+        <title>Sistema de Control de uso de Aulas y Equipos del Centro de Computo del Instituto Tecnológico de Matamoros</title>
     {%endblock%}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Job Adrián Salinas González">
 
     <!-- Le styles -->
     <link href="/media/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/media/css/site.css" rel="stylesheet">
     <link href="/media/jquery/css/ui-lightness/ui-lightness.css" rel="stylesheet">
     <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      body{
       }
     </style>
     <link href="/media/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -36,11 +35,11 @@
 
 
   <body>
+<div id="wrap">
 
+	<div id="main">
     {%include "nav.html"%}
-
-
-    <div class="container">
+    <div class="container" style="padding-top:60px;">
     {% if messages %}
         {% for message in messages %}
         <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
@@ -50,11 +49,38 @@
         {% endfor %}
     {% endif %}
 
-
         {%block maincontent%}
         {%endblock%}
-
     </div> <!-- /container -->
+
+	</div>
+
+</div>
+
+<div id="footer">
+  <div class="container">
+    <div class="row">
+        <div class="span4" style="text-align:center;">
+             <p>Instituto Tecnológico de Matamoros</p>
+        </div>
+        <div class="span4" style="text-align:center;">
+             <p>Laboratorio de cómputo</p>
+        </div>
+        <div class="span4" style="text-align:center;">
+             <p>Departamento de Sistemas y Computación</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12" style="text-align:center;">
+             <p>2012</p>
+        </div>
+    </div>
+
+
+  </div>
+</div>
+
 
     <!-- Le javascript
     ================================================== -->
@@ -65,5 +91,8 @@
     <script src="/media/bootstrap/js/bootstrap.js"></script>
     {%block extrajs%}
     {%endblock%}
+
+
   </body>
+
 </html>
