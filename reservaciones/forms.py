@@ -40,7 +40,7 @@ class PracticaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PracticaForm, self).__init__(*args, **kwargs)
         self.fields['fecha'].initial= datetime.date.today()
-        self.fields['hora_inicio'].initial= get_now_start(redondear=False)
+        self.fields['hora_inicio'].initial= get_now_start(redondear=True)
         self.fields['hora_fin'].initial= get_now_end()
         self.fields['docente'].label="RFC docente"
         self.fields['docente'].widget=forms.TextInput()

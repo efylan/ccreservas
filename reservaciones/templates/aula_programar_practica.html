@@ -15,6 +15,10 @@
 <div class="alert alert-info">
     <i class="icon-info-sign"></i> Al reservar un Aula completa para una práctica se darán por terminadas las reservaciones de equipos individuales que se encuentren a lo largo del horario de la práctica. Si estas reservaciones todavía no inician entonces serán canceladas.
 </div>
+
+<div class="row">
+<div class="span5">
+
 <form class="form-vertical" method="POST">
     <fieldset>
     <div class="control-group">
@@ -45,5 +49,31 @@
 
     </fieldset>
 </form>
+</div>
+<div class="span5">
+    {%with aula.get_practica_actual as practica_actual%}
+    {%if practica_actual%}
+    <h4><strong>El aula {{aula.nombre}} tiene una <span class="label label-warning">práctica</span> en este momento.</strong></h4>
+    <br>
+    <table class="table">
+        <tr>
+            <table class="table">
+                <tr>
+                    <td><strong>Docente</strong></td><td>{{practica_actual.docente.rfc}} - {{practica_actual.docente.apellido_paterno}} {{practica_actual.docente.apellido_materno}}  {{practica_actual.docente.nombre}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Título de práctica</strong></td><td>{{practica_actual.nombre}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Horario</strong></td><td>De {{practica_actual.hora_inicio}} a {{practica_actual.hora_fin}}.</td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+    {%else%}
+    <h4><small>El aula {{aula.nombre}} está <span class="label label-success">disponible</span> en este momento.</small></h4>
+    {%endif%}
+    {%endwith%}
+</div>
 {%endblock%}
 
