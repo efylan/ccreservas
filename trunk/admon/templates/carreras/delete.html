@@ -1,12 +1,12 @@
 {%extends "base.html"%}
 
 {%block title%}
-        <title>Administracion - Eliminar Materia</title>
+        <title>Administracion - Eliminar Carrera</title>
 {%endblock title%}
 
 
 {%block maincontent%}
-<h2>Eliminar Materia</h2>
+<h2>Eliminar Carrera</h2>
 
 <div class="well">
 
@@ -14,7 +14,7 @@
     <br>
     <br>
 
-    <a href="{% url admon.views.materia_list%}" class="btn btn-inverse"><i class="icon-arrow-left icon-white"></i> Regresar</a>
+    <a href="{% url admon.views.carrera_list%}" class="btn btn-inverse"><i class="icon-arrow-left icon-white"></i> Regresar</a>
 
     <form method="POST" style="display:inline;">
         {%csrf_token%}
