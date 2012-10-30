@@ -1,12 +1,12 @@
 {%extends "base.html"%}
 
 {%block title%}
-        <title>Administracion - Crear Carrera</title>
+        <title>Administracion - Crear Materia</title>
 {%endblock title%}
 
 
 {%block maincontent%}
-<h2>Crear Carrera</h2>
+<h2>Crear Materia</h2>
 <br>
 <form class="form-vertical" method="POST">
     <fieldset>
@@ -33,7 +33,7 @@
 
     <input type="submit" value="Guardar" class="btn btn-success"/> 
     <input type="submit" name="add_another" value="Guardar y agregar otro" class="btn btn-success"/> 
-    <a class="btn btn-inverse" href="{%url admon.views.carrera_list%}">Cancelar</a>
+    <a class="btn btn-inverse" href="{%url admon.views.materia_list%}">Cancelar</a>
 
 
     </fieldset>

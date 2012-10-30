@@ -1,19 +1,22 @@
 {%extends "base.html"%}
 
 {%block title%}
-        <title>Administracion - Listado de Carreras</title>
+        <title>Administracion - Listado de Materias</title>
 {%endblock title%}
 
 
 {%block maincontent%}
-<h2>Listado de Carreras</h2>
+{%load pagination_tags%}
+{%autopaginate obj_list 40%}
+<h2>Listado de Materias</h2>
 <br>
 
 <a href="{% url admon.views.home%}" class="btn btn-inverse"><i class="icon-arrow-left icon-white"></i> Regresar</a>
 
-<a href="{% url admon.views.carrera_create%}" class="btn btn-success pull-right"><i class="icon-plus icon-white"></i> Agregar Carrera</a>
+<a href="{% url admon.views.materia_create%}" class="btn btn-success pull-right"><i class="icon-plus icon-white"></i> Agregar Materia</a>
 <br>
 <br>
+{%paginate%}
 <table class="table table-striped table-bordered table-condensed">
 
     <thead>
@@ -32,14 +35,14 @@
             <td>{{obj.id}}</td>
             <td>{{obj.clave}}</td>
             <td>{{obj.nombre}}</td>
-            <td><a href="{% url admon.views.carrera_modify obj.id%}"><i class="icon-pencil"></i> Editar</a></td>
-            <td><a href="{% url admon.views.carrera_warning obj.id %}"><i class="icon-remove"></i> Eliminar</a></td>
+            <td><a href="{% url admon.views.materia_modify obj.id%}"><i class="icon-pencil"></i> Editar</a></td>
+            <td><a href="{% url admon.views.materia_warning obj.id %}"><i class="icon-remove"></i> Eliminar</a></td>
         </tr>
         {%endfor%}
  
     </tbody>
 
 </table>
-
+{%paginate%}
 
 {%endblock%}
