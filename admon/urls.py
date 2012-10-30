@@ -51,5 +51,22 @@ urlpatterns = patterns('',
     url(r'^groups/$', 'admon.views.group_list', name='group_l'),
     url(r'^groups/advertencia/(?P<group_id>\d+)/$', 'admon.views.group_warning', name='group_w'),
     url(r'^groups/borrar/(?P<group_id>\d+)/$', 'admon.views.group_warning', name='group_w'),
-
+   #----------------------------------
+    url(r'^periodos/crear/$', 'admon.views.periodo_create', name='periodo_c'),
+    url(r'^periodos/editar/(?P<periodo_id>\d+)/$', 'admon.views.periodo_modify', name='periodo_m'),
+    url(r'^periodos/$', 'admon.views.periodo_list', name='periodo_l'),
+    url(r'^periodos/advertencia/(?P<periodo_id>\d+)/$', 'admon.views.periodo_warning', name='periodo_w'),
+    url(r'^periodos/borrar/(?P<periodo_id>\d+)/$', 'admon.views.periodo_warning', name='periodo_w'),
+   #----------------------------------
+    url(r'^materias/crear/$', 'admon.views.materia_create', name='materia_c'),
+    url(r'^materias/editar/(?P<materia_id>\d+)/$', 'admon.views.materia_modify', name='materia_m'),
+    url(r'^materias/$', 'admon.views.materia_list', name='materia_l'),
+    url(r'^materias/advertencia/(?P<materia_id>\d+)/$', 'admon.views.materia_warning', name='materia_w'),
+    url(r'^materias/borrar/(?P<materia_id>\d+)/$', 'admon.views.materia_warning', name='materia_w'),
+   #----------------------------------
+    url(r'^clases/crear/$', 'admon.views.clase_create', name='clase_c'),
+    url(r'^clases/editar/(?P<clase_id>\d+)/$', 'admon.views.clase_modify', name='clase_m'),
+    url(r'^clases/$', 'admon.views.clase_list', name='clase_l'),
+    url(r'^clases/advertencia/(?P<clase_id>\d+)/$', 'admon.views.clase_warning', name='clase_w'),
+    url(r'^clases/borrar/(?P<clase_id>\d+)/$', 'admon.views.clase_warning', name='clase_w'),
 )

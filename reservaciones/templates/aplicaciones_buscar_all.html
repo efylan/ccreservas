@@ -33,26 +33,31 @@
     <div class="row">
 
     {%for equipo in aula.equipos%}
-
-        <div class="span1 equipo-elem" id="equipo_{{equipo.id}}" rel="popover" >
+        <div class="span2 equipo-elem" id="equipo_{{equipo.id}}" rel="popover" >
             {%if aula_disponible%}
-            <span class="label {% if not equipo.disponible %}label-important{%endif%}">{{equipo.nombre}}</span>
+            <span class="plus_size label {% if equipo.id in reservados %}label-important{%else%}label-info{%endif%}">{{equipo.nombre}}</span>
             {%else%}
-            <span class="label label-warning">{{equipo.nombre}}</span>
+            <span class="plus_size label label-warning">{{equipo.nombre}}</span>
             {%endif%}
             <br>
 
             <div class="btn-group">
-                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Accion <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
+                <a class="btn dropdown-toggle action_button"" data-toggle="dropdown" href="#">Acción <span class="caret"></span></a>
+                  <ul class="dropdown-menu" style="text-align:left;">
                     <li><a href="{%url reservaciones.views.equipo_reservar_ahora equipo.id%}">Reservar</a></li>
-                    <li><a href="{%url reservaciones.views.equipo_terminar_actual equipo.id%}">Terminar reservación actual</a></li>
-                    <li class="divider"></li>
                     <li><a data-toggle="modal" href="#equipo_{{equipo.id}}_modal">Ver detalles de equipo</a></li>
-                    <li><a href="#">Ver reservaciones futuras</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{%url informes.views.levantar_informe_equipo equipo.id%}"><i class="icon-exclamation-sign"></i> Levantar un informe</a></li>
+                    {% if equipo.id in reservados %}
+                    <li class="divider"></li>
+                    <li><a href="{%url reservaciones.views.equipo_terminar_actual equipo.id%}"><i class="icon-time"></i> <strong>Terminar</strong> reservación actual</a></li>
+                    <li><a href="{%url reservaciones.views.equipo_cancelar_actual equipo.id%}"><i class="icon-remove-sign"></i> <strong>Cancelar</strong> reservación actual</a></li>
+                    {%endif%}
+
                   </ul>
             </div>
         </div>
+
         <div class="modal hide" id="equipo_{{equipo.id}}_modal">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>

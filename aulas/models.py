@@ -66,6 +66,24 @@ class Aula(models.Model):
         else:
             return False
 
+    def get_clase_actual(self, fecha=None, ini=None, fin=None):
+        now = datetime.datetime.now()
+        if fecha == None:
+            fecha = now.date()
+        if ini == None:
+            ini = now.time()
+        if fin == None:
+            fin = now.time()
+
+        weekday = now.weekday()
+        
+        clases = self.clase_set.filter(Q(dia=weekday) & Q(hora_inicio__lte=ini) & Q(hora_fin__gte=fin) & Q(periodo__fecha_inicio__lte=now.date()) & Q(periodo__fecha_fin__gte=now.date()))
+
+        if clases.count() > 0:
+            return clases[0]
+        else:
+            return False
+
 
 class AppActivesManager(models.Manager):
     def get_query_set(self):
@@ -88,7 +106,7 @@ class Equipo(models.Model):
     nombre = models.CharField(max_length=20, unique=True)
     aula = models.ForeignKey(Aula)
     marca = models.CharField(max_length=20)
-    modelo = models.CharField(max_length=20)
+    modelo = models.CharField(max_length=50)
     ram = models.IntegerField(help_text="En Megabytes")
     disco_duro = models.IntegerField(help_text="En Gigabytes")
     sistema_operativo=models.CharField(max_length=30)

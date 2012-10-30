@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import messages
-from reportes.forms import AulaFechaForm, AulaForm, RepInformeForm
+from reportes.forms import AulaFechaForm, AulaForm, RepInformeForm, RepReservaForm, RepPracticaForm
 from reservaciones.models import Reservacion, Practica
 from informes.models import Informe
 from aulas.models import Aula
@@ -12,39 +12,42 @@ def home(request):
 def reporte_reservaciones(request):
     titulo = "Reporte de Reservaciones"
     if request.POST:
-        f = AulaFechaForm(request.POST)
+        f = RepReservaForm(request.POST)
         if f.errors:
             return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))        
         else:
             aula = f.cleaned_data['aula']
+            carrera = f.cleaned_data['carrera']
             fecha_incio = f.cleaned_data['fecha_inicio']
             fecha_fin = f.cleaned_data['fecha_fin']
             hora_inicio = f.cleaned_data['hora_inicio']
             hora_fin = f.cleaned_data['hora_fin']
-            return reporte_reservaciones_core(request, aula, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo)
+            return reporte_reservaciones_core(request, aula, carrera, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo)
     else:
-        f = AulaFechaForm()
+        f = RepReservaForm()
         return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))
 
 def reporte_reservaciones_canceladas(request):
     titulo = "Reporte de Reservaciones Canceladas"
     if request.POST:
-        f = AulaFechaForm(request.POST)
+        f = RepReservaForm(request.POST)
         if f.errors:
             return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))        
         else:
             aula = f.cleaned_data['aula']
+            carrera = f.cleaned_data['carrera']
             fecha_incio = f.cleaned_data['fecha_inicio']
             fecha_fin = f.cleaned_data['fecha_fin']
             hora_inicio = f.cleaned_data['hora_inicio']
             hora_fin = f.cleaned_data['hora_fin']
-            return reporte_reservaciones_core(request, aula, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo, activo = 0)
+            return reporte_reservaciones_core(request, aula, carrera, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo, activo = 0)
     else:
-        f = AulaFechaForm()
+        f = RepReservaForm()
         return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))
 
 
-def reporte_reservaciones_core(request, aula, fecha_inicio, fecha_fin, hora_inicio, hora_fin, activo=1, titulo=""):
+def reporte_reservaciones_core(request, aula, carrera,fecha_inicio, fecha_fin, hora_inicio, hora_fin, activo=1, titulo=""):
+
     if aula == None:
         if hora_inicio and hora_fin:
             reservas = Reservacion.objects.filter(fecha__range=(fecha_inicio, fecha_fin), activo=activo, hora_inicio__range=(hora_inicio,hora_fin))
@@ -58,6 +61,11 @@ def reporte_reservaciones_core(request, aula, fecha_inicio, fecha_fin, hora_inic
             reservas = Reservacion.objects.filter(equipo__aula=aula, fecha__range=(fecha_inicio, fecha_fin), activo=activo)
 
         aulas = Aula.get_active.filter(id=aula.id)
+
+    if carrera == None:
+        pass
+    else:
+        reservas = reservas.filter(alumno__carrera=carrera)
 
     aula_list=[]
     total_count = 0
@@ -77,39 +85,41 @@ def reporte_reservaciones_core(request, aula, fecha_inicio, fecha_fin, hora_inic
 def reporte_practicas(request):
     titulo = "Reporte de Practicas"
     if request.POST:
-        f = AulaFechaForm(request.POST)
+        f = RepPracticaForm(request.POST)
         if f.errors:
             return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))        
         else:
             aula = f.cleaned_data['aula']
+            tipo = f.cleaned_data['tipo']
             fecha_incio = f.cleaned_data['fecha_inicio']
             fecha_fin = f.cleaned_data['fecha_fin']
             hora_inicio = f.cleaned_data['hora_inicio']
             hora_fin = f.cleaned_data['hora_fin']
-            return reporte_practicas_core(request, aula, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo)
+            return reporte_practicas_core(request, aula, tipo, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo)
     else:
-        f = AulaFechaForm()
+        f = RepPracticaForm()
         return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))
 
 def reporte_practicas_canceladas(request):
     titulo = "Reporte de Practicas Canceladas"
     if request.POST:
-        f = AulaFechaForm(request.POST)
+        f = RepPracticaForm(request.POST)
         if f.errors:
             return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))        
         else:
             aula = f.cleaned_data['aula']
+            tipo = f.cleaned_data['tipo']
             fecha_incio = f.cleaned_data['fecha_inicio']
             fecha_fin = f.cleaned_data['fecha_fin']
             hora_inicio = f.cleaned_data['hora_inicio']
             hora_fin = f.cleaned_data['hora_fin']
-            return reporte_practicas_core(request, aula, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo, activo=0)
+            return reporte_practicas_core(request, aula, tipo, fecha_incio, fecha_fin, hora_inicio, hora_fin, titulo = titulo, activo=0)
     else:
-        f = AulaFechaForm()
+        f = RepPracticaForm()
         return render_to_response('f_reporte.html', {'form':f, 'titulo':titulo}, RequestContext(request))
 
 
-def reporte_practicas_core(request, aula, fecha_inicio, fecha_fin, hora_inicio, hora_fin, activo=1, titulo=""):
+def reporte_practicas_core(request, aula, tipo, fecha_inicio, fecha_fin, hora_inicio, hora_fin, activo=1, titulo=""):
     if aula == None:
         if hora_inicio and hora_fin:
             practicas = Practica.objects.filter(fecha__range=(fecha_inicio, fecha_fin), activo=activo, hora_inicio__range=(hora_inicio,hora_fin))
@@ -121,8 +131,15 @@ def reporte_practicas_core(request, aula, fecha_inicio, fecha_fin, hora_inicio, 
             practicas = Practica.objects.filter(aula=aula, fecha__range=(fecha_inicio, fecha_fin), activo=activo, hora_inicio__range=(hora_inicio,hora_fin))
         else:
             practicas = Practica.objects.filter(aula=aula, fecha__range=(fecha_inicio, fecha_fin), activo=activo)
-
         aulas = Aula.get_active.filter(id=aula.id)
+
+    if tipo == '' or tipo == 'None' or tipo == None:
+        pass
+    else:
+        practicas = practicas.filter(tipo=tipo)
+
+
+
 
     aula_list=[]
     total_count = 0

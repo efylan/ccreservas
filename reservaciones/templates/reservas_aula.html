@@ -19,8 +19,8 @@
 
 {%block maincontent%}
 
-<div class="well">
-<h2 class="pull-left">Aula {{aula.nombre}}</h2>
+<div class="well aula_well">
+<h2 class="pull-left aula_title">AULA {{aula.nombre}}</h2>
 <a class="btn btn-warning pull-right" href="{%url reservaciones.views.aula_programar_practica aula.id%}">Programar Práctica</a>
 <br>
 </br>
@@ -30,16 +30,16 @@
 <div class="row">
 
     {%for equipo in aula.equipo_set.all%}
-        <div class="span1 equipo-elem" id="equipo_{{equipo.id}}" rel="popover" >
+        <div class="span2 equipo-elem" id="equipo_{{equipo.id}}" rel="popover" >
             {%if aula_disponible%}
-            <span class="label {% if equipo.id in reservados %}label-important{%endif%}">{{equipo.nombre}}</span>
+            <span class="plus_size label {% if equipo.id in reservados %}label-important{%else%}label-info{%endif%}">{{equipo.nombre}}</span>
             {%else%}
-            <span class="label label-warning">{{equipo.nombre}}</span>
+            <span class="plus_size label label-warning">{{equipo.nombre}}</span>
             {%endif%}
             <br>
 
             <div class="btn-group">
-                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Acción <span class="caret"></span></a>
+                <a class="btn dropdown-toggle action_button" data-toggle="dropdown" href="#"><strong>Acción</strong> <span class="caret"></span></a>
                   <ul class="dropdown-menu" style="text-align:left;">
                     <li><a href="{%url reservaciones.views.equipo_reservar_ahora equipo.id%}">Reservar</a></li>
                     <li><a data-toggle="modal" href="#equipo_{{equipo.id}}_modal">Ver detalles de equipo</a></li>

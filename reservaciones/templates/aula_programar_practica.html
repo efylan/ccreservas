@@ -17,7 +17,7 @@
 </div>
 
 <div class="row">
-<div class="span5">
+<div class="span6">
 
 <form class="form-vertical" method="POST">
     <fieldset>
@@ -28,7 +28,7 @@
     {% endfor %}
 
     {% for field in form.visible_fields %}
-    <div class="control-group {%if field.errors%}error{%endif%}">
+    <div class="control-group {%if field.errors%}error{%endif%}" {%if field.name == 'fecha_fin' or field.name == 'fecha_inicio' or field.name == "hora_inicio" or field.name == "hora_fin" or field.name == "rfc" or field.name == "no_empleado"%}style="display:inline-block; vertical-align:top;"{%endif%}>
         {{ field.errors }}
         <label for="id_{{field.name}}" class="control-label"><strong>{{ field.label }}</strong></label>
         <div class="controls">
@@ -38,13 +38,13 @@
         {%endif%}
         </div>
     </div>
-
-
+    {%if field.name == "hora_fin" or field.name == "fecha_fin"%}
+    <br>
+    {%endif%}
     {% endfor %}
 
-    <input type="submit" value="Guardar" class="btn btn-success"/> 
-    <input type="submit" name="add_another" value="Guardar y programar otra practica" class="btn btn-success"/> 
-    <a class="btn btn-inverse" href="{%url reservaciones.views.home%}">Cancelar</a>
+    <input type="submit" value="Programar Práctica" class="btn btn-success"/> 
+    <a class="btn btn-inverse" href="{%url reportes.views.home%}">Regresar</a>
 
 
     </fieldset>
