@@ -5,10 +5,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from ccreservas.forms import LoginForm
 from django.contrib import auth
 from django.contrib import messages
+from reservaciones.models import Aula
 
 #TODO use class based views
 def home(request):
-    return render_to_response('index.html', {}, RequestContext(request))
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    aulas=Aula.get_active.all()
+    return render_to_response('index.html', {'aulas':aulas}, RequestContext(request))
 
 def login(request):
     if request.POST:

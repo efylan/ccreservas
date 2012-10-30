@@ -3,8 +3,8 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
 from aulas.models import Aula, Aplicacion, Equipo
-from reservaciones.models import Carrera, Alumno, Docente
-from admon.forms import AulaForm, EquipoForm, AppForm, CarreraForm, AlumnoForm, DocenteForm, GroupForm
+from reservaciones.models import Carrera, Alumno, Docente, Periodo, Materia, Clase
+from admon.forms import AulaForm, EquipoForm, AppForm, CarreraForm, AlumnoForm, DocenteForm, GroupForm, PeriodoForm, ClaseForm, MateriaForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib import messages
@@ -540,4 +540,187 @@ def group_warning(request, group_id):
 def group_list(request):
     groups = Group.objects.all()
     return render_to_response('groups/list.html', {'obj_list':groups}, RequestContext(request))
+
+#----------------------------------------------------
+
+@permission_required('reservaciones.add_periodo', login_url="/login/")
+def periodo_create(request):
+    if request.POST:
+        f = PeriodoForm(request.POST)
+        if f.errors:
+            messages.error(request, 'El formulario contiene errores.')
+            return render_to_response('periodos/create.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Periodo agregado exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/periodos/crear/')
+            return HttpResponseRedirect('/administracion/periodos/')
+    else:
+        f = PeriodoForm()    
+    return render_to_response('periodos/create.html', {'form':f}, RequestContext(request))
+
+@permission_required('reservaciones.change_periodo', login_url="/login/")
+def periodo_modify(request, periodo_id):
+    try:
+        periodo = Periodo.objects.get(id=periodo_id)
+    except Periodo.DoesNotExist:
+        messages.error(request, 'Periodo no existente.')
+        return HttpResponseRedirect('/administracion/periodos/')
+
+    if request.POST:
+        f = PeriodoForm(request.POST, instance = periodo)
+        if f.errors:
+            return render_to_response('periodos/modify.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Periodo editado exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/periodos/crear/')
+            return HttpResponseRedirect('/administracion/periodos/')
+
+    else:
+        f = PeriodoForm(instance = periodo)
+        return render_to_response('periodos/modify.html', {'form':f, 'obj':periodo}, RequestContext(request))
+
+@permission_required('reservaciones.delete_periodo', login_url="/login/")
+def periodo_warning(request, periodo_id):
+    try:
+        periodo = Periodo.objects.get(id=periodo_id)
+    except Periodo.DoesNotExist:
+        messages.error(request, 'Periodo no existente.')
+
+    if request.POST:
+        periodo.delete()
+        messages.warning(request, 'Periodo eliminado exitosamente.')
+        return HttpResponseRedirect('/administracion/periodos/')
+
+    return render_to_response('periodos/delete.html', {'obj':periodo}, RequestContext(request))
+
+
+def periodo_list(request):
+    periodos = Periodo.objects.all()
+    return render_to_response('periodos/list.html', {'obj_list':periodos}, RequestContext(request))
+
+#----------------------------------------------------
+
+@permission_required('reservaciones.add_materia', login_url="/login/")
+def materia_create(request):
+    if request.POST:
+        f = MateriaForm(request.POST)
+        if f.errors:
+            messages.error(request, 'El formulario contiene errores.')
+            return render_to_response('materias/create.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Materia agregada exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/materias/crear/')
+            return HttpResponseRedirect('/administracion/materias/')
+    else:
+        f = MateriaForm()    
+    return render_to_response('materias/create.html', {'form':f}, RequestContext(request))
+
+@permission_required('reservaciones.change_materia', login_url="/login/")
+def materia_modify(request, materia_id):
+    try:
+        materia = Materia.objects.get(id=materia_id)
+    except Materia.DoesNotExist:
+        messages.error(request, 'Materia no existente.')
+        return HttpResponseRedirect('/administracion/materias/')
+
+    if request.POST:
+        f = MateriaForm(request.POST, instance = materia)
+        if f.errors:
+            return render_to_response('materias/modify.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Materia editada exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/materias/crear/')
+            return HttpResponseRedirect('/administracion/materias/')
+
+    else:
+        f = MateriaForm(instance = materia)
+        return render_to_response('materias/modify.html', {'form':f, 'obj':materia}, RequestContext(request))
+
+@permission_required('reservaciones.delete_materia', login_url="/login/")
+def materia_warning(request, materia_id):
+    try:
+        materia = Materia.objects.get(id=materia_id)
+    except Materia.DoesNotExist:
+        messages.error(request, 'Materia no existente.')
+
+    if request.POST:
+        materia.delete()
+        messages.warning(request, 'Materia eliminada exitosamente.')
+        return HttpResponseRedirect('/administracion/materias/')
+
+    return render_to_response('materias/delete.html', {'obj':materia}, RequestContext(request))
+
+
+def materia_list(request):
+    materias = Materia.objects.all()
+    return render_to_response('materias/list.html', {'obj_list':materias}, RequestContext(request))
+
+#----------------------------------------------------
+
+@permission_required('reservaciones.add_clase', login_url="/login/")
+def clase_create(request):
+    if request.POST:
+        f = ClaseForm(request.POST)
+        if f.errors:
+            messages.error(request, 'El formulario contiene errores.')
+            return render_to_response('clases/create.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Clase agregada exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/clases/crear/')
+            return HttpResponseRedirect('/administracion/clases/')
+    else:
+        f = ClaseForm()    
+    return render_to_response('clases/create.html', {'form':f}, RequestContext(request))
+
+@permission_required('reservaciones.change_clase', login_url="/login/")
+def clase_modify(request, clase_id):
+    try:
+        clase = Clase.objects.get(id=clase_id)
+    except Clase.DoesNotExist:
+        messages.error(request, 'Clase no existente.')
+        return HttpResponseRedirect('/administracion/clases/')
+
+    if request.POST:
+        f = ClaseForm(request.POST, instance = clase)
+        if f.errors:
+            return render_to_response('clases/modify.html', {'form':f}, RequestContext(request))
+        else:
+            f.save()
+            messages.success(request, 'Clase editada exitosamente.')
+            if 'add_another' in request.POST.keys():
+                return HttpResponseRedirect('/administracion/clases/crear/')
+            return HttpResponseRedirect('/administracion/clases/')
+
+    else:
+        f = ClaseForm(instance = clase)
+        return render_to_response('clases/modify.html', {'form':f, 'obj':clase}, RequestContext(request))
+
+@permission_required('reservaciones.delete_clase', login_url="/login/")
+def clase_warning(request, clase_id):
+    try:
+        clase = Clase.objects.get(id=clase_id)
+    except Clase.DoesNotExist:
+        messages.error(request, 'Clase no existente.')
+
+    if request.POST:
+        clase.delete()
+        messages.warning(request, 'Clase eliminada exitosamente.')
+        return HttpResponseRedirect('/administracion/clases/')
+
+    return render_to_response('clases/delete.html', {'obj':clase}, RequestContext(request))
+
+
+def clase_list(request):
+    clases = Clase.objects.all()
+    return render_to_response('clases/list.html', {'obj_list':clases}, RequestContext(request))
 

@@ -1,20 +1,140 @@
 {%extends "base.html"%}
 
+{%block extrajs%}
+<script>
+    $(function (){
+        $('#prac_modal').modal({show:false})
+        $('#res_modal').modal({show:false})
+        $('#vprac_modal').modal({show:false})
+        $('#vres_modal').modal({show:false})
+        $('#busqueda_modal').modal({show:false})
+    });
+</script>
+{%endblock%}
+
 {%block maincontent%}
-    <h1 class="index_title">INSTITUTO TECNOLÓGICO DE MATAMOROS</h1>
-    <div class="row">
-        <div class="span4 index_image" style="text-align:center;">
-            <img src="/media/img/logo_tec.png">
+    {%include "tec_info.html"%}
+    <div class="index_menu">
+        <div class="row">
+            <div class="span3 offset3 index_option">
+                <a data-toggle="modal" href="#prac_modal"><img src="/media/img/icon_thumbnails.png"> Programar Práctica</a>
+            </div>
+            <div class="span3 index_option">
+                <a data-toggle="modal" href="#res_modal"><img src="/media/img/icon_display.png"> Reservar Equipo</a>
+            </div>
         </div>
-        <div class="span4 index_image" style="text-align:center;">
-            <img src="/media/img/logo_snest.png">
+        <div class="row">
+            <div class="span3 offset3 index_option">
+                <a data-toggle="modal" href="#vprac_modal"><img src="/media/img/icon_book.png"> Ver Prácticas</a>
+            </div>
+            <div class="span3 index_option">
+                <a data-toggle="modal" href="#vres_modal"><img src="/media/img/icon_address_book.png"> Ver Reservaciones</a>
+            </div>
         </div>
-        <div class="span4 index_image" style="text-align:center;">
-            <img src="/media/img/logo_sep_gob.jpg">
+
+        <div class="row">
+            <div class="span3 offset3 index_option">
+                <a href="{%url informes.views.home%}"><img src="/media/img/icon_comments.png"> Informes</a>
+            </div>
+            <div class="span3 index_option">
+                <a data-toggle="modal" href="#busqueda_modal"><img src="/media/img/search.png"> Buscar Aplicación</a>
+            </div>
         </div>
     </div>
-    <div class="index_subtitle">
-      <h3>Laboratorio de Cómputo</h3>
-      <h3><small>Departamento de sistemas y computación.</small></h3>
-    </div>
+
+
+        <div class="modal hide" id="prac_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Programar Práctica - Elegir Aula</h3>
+          </div>
+          <div class="modal-body">            
+            {%for aula in aulas%}
+            <div class="index_aula_list">
+                <a href="{%url reservaciones.views.aula_programar_practica aula.id%}" class="">Aula {{aula.nombre}}</a>
+            </div>
+            {%endfor%}
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+          </div>
+        </div>
+
+        <div class="modal hide" id="res_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Visualizar equipos para reservación - Elegir Aula</h3>
+          </div>
+          <div class="modal-body">            
+            {%for aula in aulas%}
+            <div class="index_aula_list">
+                <a href="{%url reservaciones.views.aula_detail aula.id%}" class="">Aula {{aula.nombre}}</a>
+            </div>
+            {%endfor%}
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+          </div>
+        </div>
+
+        <div class="modal hide" id="vprac_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Ver Prácticas - Elegir Aula</h3>
+          </div>
+          <div class="modal-body">            
+            {%for aula in aulas%}
+            <div class="index_aula_list">
+                <a href="{%url reservaciones.views.ver_practicas aula.id%}" class="">Aula {{aula.nombre}}</a>
+            </div>
+            {%endfor%}
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+          </div>
+        </div>
+
+        <div class="modal hide" id="vres_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Ver Reservaciones - Elegir Aula</h3>
+          </div>
+          <div class="modal-body">      
+            {%for aula in aulas%}
+            <div class="index_aula_list">
+                <a href="{%url reservaciones.views.ver_reservaciones aula.id%}" class="">Aula {{aula.nombre}}</a>
+            </div>
+            {%endfor%}
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+          </div>
+        </div>
+
+        <div class="modal hide" id="busqueda_modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Buscar Aplicación en Todas las Aulas</h3>
+          </div>
+          <div class="modal-body">      
+            <div class="well well-small">
+            <form class="form-inline" action="{%url reservaciones.views.busqueda_aplicaciones_all%}" style="text-align:center;">
+             <fieldset>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="text" name="search", id="id_search_all" class="search_field"><input type="submit" class="btn" value="Buscar" id="search_btn_all">
+                </div>
+              </div>
+             </fieldset>
+            </form>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+          </div>
+        </div>
+
+
+
 {%endblock%}

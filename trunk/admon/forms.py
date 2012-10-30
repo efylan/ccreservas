@@ -1,7 +1,7 @@
 from django import forms
 from aulas.models import Aula, Equipo, Aplicacion
 from django.contrib.auth.models import Group
-from reservaciones.models import Carrera, Alumno, Docente
+from reservaciones.models import Carrera, Alumno, Docente, Periodo, Clase, Materia
 
 class AulaForm(forms.ModelForm):
     class Meta:
@@ -30,4 +30,16 @@ class DocenteForm(forms.ModelForm):
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
+
+class PeriodoForm(forms.ModelForm):
+    class Meta:
+        model = Periodo
+
+class ClaseForm(forms.ModelForm):
+    class Meta:
+        model = Clase
+
+class MateriaForm(forms.ModelForm):
+    class Meta:
+        model = Materia
 

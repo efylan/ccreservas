@@ -1,9 +1,5 @@
 {%extends "base.html"%}
 {%block maincontent%}
-    {%if informes%}
-    {% load pagination_tags %}
-    {% autopaginate informes 15 %}
-    <div class="informes_list" style="border-bottom:1px solid #ddd;">
       <div class="btn-toolbar" style="text-align:center;">
         <div class="btn-group">
             <a href="{%url informes.views.informes_pendientes%}" class="btn">Ver Pendientes</a>
@@ -11,6 +7,11 @@
             <a href="{%url informes.views.informes_wontfix%}" class="btn">Ver No Arreglados</a>
         </div>
       </div>
+
+    {%if informes%}
+    {% load pagination_tags %}
+    {% autopaginate informes 15 %}
+    <div class="informes_list" style="border-bottom:1px solid #ddd;">
       <h2>Informes</h2>
       <br>
       <table class="table">  

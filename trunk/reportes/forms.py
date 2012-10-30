@@ -1,9 +1,10 @@
 from django import forms
 from aulas.models import Aula
+from reservaciones.models import Carrera
 
 TIPO_INF_CHOICES=((0,'Todas las categorias'),(1,'Hardware'),(2,'Software'))
 ESTADO_INF_CHOICES=((0,'Todas las condiciones'),(1,'Pendiente'),(2,'Arreglado'),(3,'No se arreglara'))
-
+TIPO_CLASE_CHOICES = ((None,'Todo'),(0,'Clases'),(1,'Cursos'))
 class AulaFechaForm(forms.Form):
     aula = forms.ModelChoiceField(queryset=Aula.get_active.all(), required=False, empty_label="Todas")
     fecha_inicio = forms.DateField(label = "Desde el dia", help_text="Las fechas son obligatorias.")
@@ -11,7 +12,22 @@ class AulaFechaForm(forms.Form):
     hora_inicio = forms.TimeField(required=False, help_text="Las horas son opcionales.")
     hora_fin = forms.TimeField(required=False, help_text="Formato de 24 horas ej. 4:00pm es 16:00")
 
+class RepReservaForm(forms.Form):
+    aula = forms.ModelChoiceField(queryset=Aula.get_active.all(), required=False, empty_label="Todas")
+    carrera = forms.ModelChoiceField(queryset=Carrera.objects.all(), required=False, empty_label="Todas")
+    fecha_inicio = forms.DateField(label = "Desde el dia", help_text="Las fechas son obligatorias.")
+    fecha_fin = forms.DateField(label = "Hasta el dia", help_text="Formato: dd/mm/aaaa")
+    hora_inicio = forms.TimeField(required=False, help_text="Las horas son opcionales.")
+    hora_fin = forms.TimeField(required=False, help_text="Formato de 24 horas ej. 4:00pm es 16:00")
     
+class RepPracticaForm(forms.Form):
+    aula = forms.ModelChoiceField(queryset=Aula.get_active.all(), required=False, empty_label="Todas")
+    #carrera = forms.ModelChoiceField(queryset=Carrera.objects.all(), required=False, empty_label="Todas")
+    tipo = forms.ChoiceField(choices=TIPO_CLASE_CHOICES, label="Tipo")
+    fecha_inicio = forms.DateField(label = "Desde el dia", help_text="Las fechas son obligatorias.")
+    fecha_fin = forms.DateField(label = "Hasta el dia", help_text="Formato: dd/mm/aaaa")
+    hora_inicio = forms.TimeField(required=False, help_text="Las horas son opcionales.")
+    hora_fin = forms.TimeField(required=False, help_text="Formato de 24 horas ej. 4:00pm es 16:00")
 
 class AulaForm(forms.Form):
     aula = forms.ModelChoiceField(queryset=Aula.get_active.all(), required=False, empty_label="Todas")

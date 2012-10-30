@@ -21,17 +21,38 @@
 
 .equipo-elem{
   margin-top: 10px;
-  margin-bottom: 20px;
-  padding:8px;
-  background-color: #eee;
+  margin-bottom: 10px;
+  padding:12px;
+  margin-right:6px;
+  /*background-color: #F6F6F6;*/
+  background-color:#EFF5D0;
   text-align: center;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
-  min-height: 30px;
-  line-height: 30px;
+  min-height: 80px;
+  line-height: 40px;
+  font-size:15px;
+  border: 1px solid #DCDCDC;
 }
 
+.search_well{
+    vertical-align:middle;
+    padding-top:25px;
+    border: 1px solid #BDBDBD;
+    background-image:#f5f8dd;
+    background-image: url("/media/img/f.jpg");
+}
+
+.aula_well{
+    border: 1px solid #DDDDDD;
+}
+
+.aula_title{
+
+    font-size:30px;
+    color:#000;
+}
 #id_fecha, #id_fecha_inicio, #id_fecha_fin{
     background-image: url("/media/img/calendar.png");
     background-repeat:no-repeat;
@@ -46,6 +67,11 @@
     background-repeat:no-repeat;
     background-position:3px 3px;
     padding-left:30px;
+    height:23px;
+}
+
+#id_docente, #id_no_empleado{
+    width:130px;
     height:23px;
 }
 
@@ -110,7 +136,7 @@
 }
 
 .report_option{
-    margin-left:50px;
+    padding-left:20px;
 }
 
 
@@ -122,20 +148,21 @@
 vertical margins (top and bottom) to add spacing, else those margins get added to total height 
 and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
 
-html, body {height: 100%;}
+html, body {height: 100%;
+            font-size:15px;
+            }
 
 #wrap {min-height: 100%;}
 
-#main {overflow:auto;
+#main {overflow:hidden;
 	padding-bottom: 80px;
     }  /* must be same height as the footer */
 
 #footer {position: relative;
-    padding:20px 0;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
-	margin-top: -80px; /* negative value of footer height */
-	height: 80px;
+	margin-top: -45px; /* negative value of footer height */
+	height: 45px;
 	clear:both;} 
 
 /*Opera Fix*/
@@ -151,6 +178,7 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
     background-color:#DDDDDD;
     padding-top:20px;
     padding-bottom:20px;
+    background-image: url("/media/img/f.jpg");
 }
 
 .index_title{
@@ -162,4 +190,61 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
 .index_subtitle{
     padding-top:20px;
     text-align:center;
+}
+
+.index_menu{
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.index_option{
+    padding-top:20px;
+    padding-bottom:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+    background-color:#f0f0f0;   
+    border: 1px solid #e5e5e5;
+    text-shadow:#BBBBBB 1px 1px 1px;
+}
+
+.index_option a{
+    padding-left:20px;
+}
+
+.index_option a:hover{
+    text-decoration:none;
+}
+
+.index_aula_list{
+    line-height:32px;
+    text-align:center;
+    vertical-align:middle;
+    display:inline-block;
+    padding:10px;
+    min-height:32px;
+    min-width:80px;
+    margin-bottom:5px;
+    background-color:#f0f0f0;   
+    border: 1px solid #e5e5e5;
+    text-shadow:#BBBBBB 1px 1px 1px;
+}
+
+.plus_size{
+    font-size:15px;
+}
+
+.btn_resindex{
+    height:22px;
+    vertical-align:middle;
+    width:170px;
+}
+
+.toolbar_resindex{
+    margin-bottom:20px;
+}
+
+
+.action_button{
+    width:120px;
+    
 }

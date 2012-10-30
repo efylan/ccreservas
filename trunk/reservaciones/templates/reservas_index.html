@@ -13,7 +13,7 @@
     });
     </script>
 {%endblock%}
-<div class="well well-small span6 offset3">
+<div class="well well-small span9 offset1 search_well">
            <form class="form-inline" action="{%url reservaciones.views.busqueda_aplicaciones_all%}" style="text-align:center;">
             <fieldset>
               <div class="control-group">
@@ -25,12 +25,12 @@
            </form>
 </div>
 <div class="row">
-    <div class="span12">
+    <div class="span10 offset1">
       {%for aula in aulas%}     
-       <div class="btn-toolbar">
+       <div class="btn-toolbar toolbar_resindex">
          <div class="btn-group">
             {%with aula.get_disponibles_count as disponibles_count%}
-            <a href="#" style="width:150px;" class="btn dropdown-toggle" data-toggle="dropdown" class="btn"><span class="pull-left badge {%if disponibles_count > 0%}{%else%}badge-warning{%endif%}">{{disponibles_count}} / {{aula.total_equipos}}</span> Aula {{aula.nombre}} <span class="caret pull-right"></span></a>
+            <a href="#"  class="btn dropdown-toggle plus_size btn_resindex" data-toggle="dropdown" class="btn"><span class="pull-left badge {%if disponibles_count > 0%}badge-info{%else%}badge-warning{%endif%}">{{disponibles_count}} / {{aula.total_equipos}}</span> Aula {{aula.nombre}} <span class="caret pull-right"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="{%url reservaciones.views.ver_reservaciones aula.id%}">Ver Reservaciones</a></li>
                 <li><a href="{%url reservaciones.views.ver_practicas aula.id%}">Ver Practicas</a></li>
@@ -43,9 +43,9 @@
                 {%endwith%}
             </ul>
 
-            <a href="{%url reservaciones.views.aula_detail aula.id%}" class="btn">Ver equipos de {{aula.nombre}}</a>
-            <a href="{%url reservaciones.views.aula_programar_practica aula.id%}" class="btn">Programar práctica</a>
-            <a href="#busqueda_aula_{{aula.id}}" class="btn" data-toggle="modal"><i class="icon-search"></i> Buscar aplicación</a>
+            <a href="{%url reservaciones.views.aula_detail aula.id%}" class="btn plus_size btn_resindex" >Ver equipos de {{aula.nombre}}</a>
+            <a href="{%url reservaciones.views.aula_programar_practica aula.id%}" class="btn plus_size btn_resindex" >Programar práctica</a>
+            <a href="#busqueda_aula_{{aula.id}}" class="btn plus_size btn_resindex" data-toggle="modal" ><i class="icon-search"></i> Buscar aplicación</a>
             {%endwith%}
 
          </div>

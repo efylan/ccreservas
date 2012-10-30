@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import messages
 from aulas.models import Aula, Aplicacion, Equipo
-from reservaciones.models import Alumno, Docente, Carrera, Reservacion, Practica, Horario, Clase
+from reservaciones.models import Alumno, Docente, Carrera, Reservacion, Practica, Clase
 from reservaciones.forms import ResEquipoForm, get_now_start, get_now_end, PracticaForm
 from django.db.models import Q
 import datetime
@@ -107,13 +107,25 @@ def aula_programar_practica(request, aula_id):
     fechahora= datetime.datetime.now()
     hoy = fechahora.date()
     if request.POST:
-        f = PracticaForm(request.POST)
+        f = PracticaForm(data=request.POST, aula=aula)
         if f.errors:
             return render_to_response('aula_programar_practica.html', {'aula':aula, 'form':f}, RequestContext(request))
         else:
             practica = f.save(commit=False)
             if aula.disponible(practica.fecha, practica.hora_inicio, practica.hora_fin):
                 practica.aula = aula
+                num = f.cleaned_data['no_empleado']
+                rfc = f.cleaned_data['rfc']
+                if len(num) > 0:
+                    docente = Docente.objects.get(no_empleado = num)
+                elif len(rfc) > 0:
+                    docente = Docente.objects.get(rfc = rfc)
+                else:
+                    messages.error(request, 'Ingresar No. de Empleado o RFC de docente.')
+                    return render_to_response('aula_programar_practica.html', {'aula':aula, 'form':f}, RequestContext(request))
+
+
+                practica.docente = docente
                 practica.save()
                 reservas = Reservacion.objects.filter(Q(equipo__aula=aula) & Q(fecha=practica.fecha) & Q(hora_inicio__lte=practica.hora_fin) & Q(hora_fin__gte=practica.hora_inicio) & Q(activo=1))
                 reservas_count = reservas.count()
@@ -130,13 +142,13 @@ def aula_programar_practica(request, aula_id):
                     messages.warning(request, '%s reservacion(es) fueron dadas por terminadas para programar la práctica' % (reservas_count))
                 return HttpResponseRedirect('/reservaciones/')
             else:
-                messages.warning(request, 'Ya existe una práctica programada para el aula %s en %s de %s a %s' % (aula.nombre, practica.fecha, practica.hora_inicio, practica.hora_fin))
+                messages.warning(request, 'Ya existe una practica programada para el aula %s en %s de %s a %s' % (aula.nombre, practica.fecha, practica.hora_inicio, practica.hora_fin))
 
                 return HttpResponseRedirect('/reservaciones/')
 
     else:
         id_equipos = aula.equipo_set.filter(activo=1).values_list('id')
-        f = PracticaForm()
+        f = PracticaForm(aula=aula)
     
     return render_to_response('aula_programar_practica.html', {'aula':aula, 'form':f}, RequestContext(request))
 
